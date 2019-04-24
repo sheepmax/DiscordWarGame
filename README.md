@@ -1,2 +1,60 @@
 # DiscordWarGame
 A discord based real-time strategy war game programmed with python.
+
+# Current ideas
+Waves
+-> The game comes in waves of 2 weeks
+-> After each wave: 
+->-> The battlefields are cleared
+->-> Remaining troops are returned to players
+
+Battlefields
+-> There are 5 battlefields
+-> BF dimensions: 20x20 tiles
+-> Probably hand-crafted
+-> Each battle field has 10 cities
+-> 5 players / BF maximum
+-> When a player joins a BF, they get a random city as their base (it generates income like a captured one)
+->-> If their base is captured, their troops are returned back and they must wait 1 day before joining again.
+->-> Players cannot join a BF if all cities are under player control.
+
+Cities
+-> They come in the following sizes: 
+->-> 1*1
+->-> 2*2
+->-> 3*3
+->-> 5*6 (Megacity)
+-> To capture: 
+->-> 50 firepower / tile of city
+->-> This "HP" (50/tile) can be dwindled gradually but must be completed to capture city
+->-> Capture points, the "damage" done to cities, will be on a player by player basis. Players must undo the CP of other players before attempting to capture a city.
+-> Income production: 2M/tile/turn
+-> Players can spawn troops from cities (applies for their home base), they can be spawned 1 tile out from the perimeter of the city and in all city tiles. Spawned troops must wait the turn before being mobile. 
+-> If a player captures all cities in a BF, they get a 1B currency bonus and the BF is reset (the troops are returned of course).
+-> Players may choose to destroy cities for a tactical advantage:
+->-> This may only be done if they have the firepower located in the city tiles equivalent to half the CP required to capture it (25/tile CP).
+->-> The destruction process take 2 days to complete and all troops in the city are immobilised.
+->-> At the end of the 2 turns, 0-25% of troops in the city tiles are destroyed.
+->-> Enemy players may attack troops in the city, immediately resetting the destruction countdown and remobilising the troops in the city.
+->-> A destroyed city can not be captured, doesn't produce income and cannot become a player base.
+
+Turns
+-> Players get a turn every 5 hours/ when all players have used their turn. This is on a per BF basis.
+-> Each turn a player can:
+->-> Move each troop once.
+->-> Engage in combat if a troop is close enough to an enemy one.
+->-> Make progress capturing a city (CP afflicted are decided based on the troops on the city tiles at the end of the turn).
+-> A player's turn ends when all troops have moved and attacked (if applicable) or when they declare its end with a command.
+-> The term "turns" may be misleading; it's not a turn as in each player plays successive to the previous. Players can play parallel to each other, turns simply limit the quantity and type of actions they can take in a given time frame.
+
+Ranks
+-> If a player every reaches a net worth greater than 5B, their balance and troops are cleared and they automatically rank up.
+-> There are 5 ranks in total, all players start at rank 1.
+-> After each rank up, players lose access to one BF, starting at BF 1. This will naturally rank battlefields.
+-> The higher the rank, the better work commands will pay on average (luck increases), and the more money cities will generate (+1M/tile/rank).
+-> If caught, high gain commands suck as !criminal, will result in suspicion points. 
+->-> At 5000 suspicion points, players will lose 1 rank (if higher than rank 1) and their SP will be reset.
+
+
+
+

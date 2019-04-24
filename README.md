@@ -2,13 +2,13 @@
 A discord based real-time strategy war game programmed with python.
 
 # Current ideas
-##Waves
+## Waves
 - The game comes in waves of 2 weeks
 - After each wave: 
   - The battlefields are cleared
   - Remaining troops are returned to players
 
-##Battlefields
+## Battlefields
 - There are 5 battlefields
 - BF dimensions: 20x20 tiles
 - Probably hand-crafted
@@ -18,7 +18,7 @@ A discord based real-time strategy war game programmed with python.
   - If their base is captured, their troops are returned back and they must wait 1 day before joining again.
   - Players cannot join a BF if all cities are under player control.
 
-##Cities
+## Cities
 - They come in the following sizes: 
   - 1*1
   - 2*2
@@ -38,7 +38,7 @@ A discord based real-time strategy war game programmed with python.
   - Enemy players may attack troops in the city, immediately resetting the destruction countdown and remobilising the troops in the city.
   - A destroyed city can not be captured, doesn't produce income and cannot become a player base.
 
-##Turns
+## Turns
 - Players get a turn every 5 hours/ when all players have used their turn. This is on a per BF basis.
 - Each turn a player can:
   - Move each troop once.
@@ -47,7 +47,7 @@ A discord based real-time strategy war game programmed with python.
 - A player's turn ends when all troops have moved and attacked (if applicable) or when they declare its end with a command.
 - The term "turns" may be misleading; it's not a turn as in each player plays successive to the previous. Players can play parallel to each other, turns simply limit the quantity and type of actions they can take in a given time frame.
 
-##Ranks
+## Ranks
 - If a player every reaches a net worth greater than 5B, their balance and troops are cleared and they automatically rank up.
 - There are 5 ranks in total, all players start at rank 1.
 - After each rank up, players lose access to one BF, starting at BF 1. This will naturally rank battlefields.

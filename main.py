@@ -17,6 +17,10 @@ previous_drawn = None
 WIN_WIDTH = 0
 WIN_HEIGHT = 0
 
+# Events
+UNIT_MOVE_EVENT = 24
+UNIT_ADD_EVENT = 25
+
 textures = {}
 
 def load_textures ():
@@ -90,6 +94,21 @@ while running:
 	pygame.display.update()
 
 	for event in pygame.event.get():
+		#if (event.type != 4 or event.type != 1): print(event.type)
 		if (event.type == pygame.QUIT):
 			pygame.quit()
 			running = False
+		elif (event.type == UNIT_MOVE_EVENT):
+			
+			if (not current_battlefield.is_unit(event.initial)):
+				print("No unit is positioned there!")
+				continue
+			elif (event.final[0] >= 0 or event.final[0] < current_battlefield.width
+				  and event.final[1] >= 0 or event.final[1] < current_battlefield.height):
+				print("Movement is out of bounds!")
+				continue
+			current_battlefield.move_unit(event.initial, event.final)
+
+		elif (event.type == UNIT_ADD_EVENT):
+			new_unit = Unit(event.unit_name, event.position, None)
+			current_battlefield.add_unit(new_unit)

@@ -1,5 +1,8 @@
 {
 "name": "Mega dildo of death",
 "icon": "Dildo.png",
-"health": 50
+"health": 50,
+"movement_type": "land",
+"range": 3,
+"attack_range": 3
 }

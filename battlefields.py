@@ -1,11 +1,11 @@
-import utils
+from utils import *
 import time
 
 class Battlefield:
 	num_fields = 0
 
 	def __init__(self, config):
-		utils.load_class(self, config)
+		load_class(self, config)
 		self.ID = Battlefield.num_fields
 		Battlefield.num_fields += 1
 
@@ -20,18 +20,22 @@ class Battlefield:
 		return file_path
 
 	def add_unit (self, unit):
-		self.units[co_to_key(unit.position)] = unit
+		self.units[self.co_to_key(unit.position)] = unit
 
 	def is_unit (self, position):
-		return (co_to_key(position) in self.units)
+		return (self.co_to_key(position) in self.units)
 
 	def return_unit(self, position):
 		if (not self.is_unit(position)): return None
-		return units[co_to_key(position)]
+		return self.units[self.co_to_key(position)]
+
+	def in_bounds(self, position):
+		return (position[0] >= 0 and position[0] < self.width and
+				position[1] >= 0 and position[1] < self.height)
 
 	def move_unit (self, initial, final):
-		init_key = co_to_key(initial)
-		final_key = co_to_key(final)
+		init_key = self.co_to_key(initial)
+		final_key = self.co_to_key(final)
 
 		self.units[init_key].position[:] = final
 		self.units[final_key] = self.units.pop(init_key)

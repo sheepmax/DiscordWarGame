@@ -1,6 +1,7 @@
 from pygame import event, USEREVENT
 
-command_data = {"move": [0, ["cinitial", "cfinal"]], "add_unit": [1, ["uunit_name", "cposition"]]}
+command_data = {"move": [0, ["cinitial", "cfinal"]], "add_unit": [1, ["sunit_name", "cposition"]],
+				"info": [2, ["cposition", "sinfo_type"]]}
 coordinate_alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o']
 
 def parse_coordinates(co_string):
@@ -35,7 +36,7 @@ def parse_input(command):
 			if (parsed_coordinates == None): return None
 			event_attributes[parameter_name] = parsed_coordinates
 
-		elif (parameter_type == 'u'):
+		elif (parameter_type == 's'):
 			event_attributes[parameter_name] = parameter
 	return event_type, event_attributes
 

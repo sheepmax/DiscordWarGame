@@ -5,6 +5,8 @@ import interface
 import threading
 from glob import glob
 import json
+from utils import *
+import astar
 
 TILE_SIZE = 45
 
@@ -20,8 +22,10 @@ WIN_HEIGHT = 0
 # Events
 UNIT_MOVE_EVENT = 24
 UNIT_ADD_EVENT = 25
+UNIT_GET_INFO = 26
 
 textures = {}
+unit_movement_illegals = {"land": [1], "water": [0, 2, 3]}
 
 def load_textures ():
 	''' Loads texture data for battlefield drawing '''
@@ -42,6 +46,7 @@ def load_unit_data ():
 			Unit.unit_types[name] = json.load(unit_file)
 			icon = pygame.image.load("Units\\{}".format(Unit.unit_types[name]["icon"]))
 			Unit.unit_types[name]["icon"] = icon.convert_alpha()
+			Unit.unit_types[name]["movement_type"] = unit_movement_illegals[Unit.unit_types[name]["movement_type"]]
 
 def draw_battlefield (battlefield):
 	global screen, previous_drawn, WIN_WIDTH, WIN_HEIGHT
@@ -88,9 +93,19 @@ interface_thread = threading.Thread(target = interface.get_input)
 interface_thread.daemon = True
 interface_thread.start()
 
+overlay_surface = pygame.Surface((TILE_SIZE, TILE_SIZE))
+overlay_surface.fill((255, 0, 0))
+overlay_surface.set_alpha(150)
+overlay_surface = overlay_surface.convert_alpha()
+
+overlay_positions = []
+
 while running:
 
 	draw_battlefield(current_battlefield)
+
+	for overlay_position in overlay_positions:
+		screen.blit(overlay_surface, (overlay_position[0] * (TILE_SIZE + 1) + 1, overlay_position[1] * (TILE_SIZE + 1) + 1))
 	pygame.display.update()
 
 	for event in pygame.event.get():
@@ -99,12 +114,11 @@ while running:
 			pygame.quit()
 			running = False
 		elif (event.type == UNIT_MOVE_EVENT):
-			
+
 			if (not current_battlefield.is_unit(event.initial)):
 				print("No unit is positioned there!")
 				continue
-			elif (event.final[0] >= 0 or event.final[0] < current_battlefield.width
-				  and event.final[1] >= 0 or event.final[1] < current_battlefield.height):
+			elif (not current_battlefield.in_bounds(event.final)):
 				print("Movement is out of bounds!")
 				continue
 			current_battlefield.move_unit(event.initial, event.final)
@@ -112,3 +126,19 @@ while running:
 		elif (event.type == UNIT_ADD_EVENT):
 			new_unit = Unit(event.unit_name, event.position, None)
 			current_battlefield.add_unit(new_unit)
+
+		elif (event.type == UNIT_GET_INFO):
+			unit = current_battlefield.return_unit(event.position)
+			if (unit == None): 
+				print("No unit is positioned here!")
+				continue
+			if (event.info_type == "range"):
+				unit_range = Unit.unit_types[unit.name]["range"]
+				for layer in range(-unit_range, unit_range + 1):
+					for square in range(-(unit_range-abs(layer)), (unit_range-abs(layer)) + 1):
+						if (square == 0 and layer == 0): continue
+						translated = add_vectors([square, layer], unit.position)
+						overlay_positions.append(translated)
+					
+
+
